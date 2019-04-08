@@ -1,0 +1,39 @@
+spring:
+  jackson:
+    default-property-inclusion: non_empty
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      config:
+        watch:
+          enabled: true
+      discovery:
+        register: false
+        healthCheckInterval: 10s
+    gateway:
+      discovery: true
+logging:
+  path: ./logs/8881
+  level:
+    root: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: debug
+    com.jiuwei.minapp: debug
+  file:
+    max-size: 1000MB
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+feign:
+  hystrix:
+    enabled: true
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 6000
