@@ -2,6 +2,10 @@ spring:
   jackson:
     default-property-inclusion: non_empty
   cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
     consul:
       host: 127.0.0.1
       port: 8500
@@ -9,19 +13,18 @@ spring:
         watch:
           enabled: true
       discovery:
+#        serviceName: gateway
+#        healthCheckInterval: 10s
         register: false
-        healthCheckInterval: 10s
-    gateway:
-      discovery: true
 logging:
-  path: ./logs/8881
   level:
-    root: INFO
-    org:
-      springframework:
-        cloud:
-          gateway: debug
-    com.jiuwei.minapp: debug
+    root: debug
+#    org:
+#      springframework:
+#        cloud:
+#          gateway: debug
+#    com.jiuwei.minapp: debug
+  path: ./logs/8800
   file:
     max-size: 1000MB
 hystrix:

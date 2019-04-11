@@ -1,0 +1,46 @@
+spring:
+  jackson:
+    default-property-inclusion: non_empty
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      config:
+        watch:
+          enabled: true
+      discovery:
+        serviceName: user-server
+        healthCheckInterval: 10s
+#        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  datasource:
+      url: jdbc:mysql://rm-bp1a1h5a322p1e8v5wo.mysql.rds.aliyuncs.com:3306/microservices?useUnicode=true&amp;characterEncoding=utf-8&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
+      username: msa_root
+      password: NANHAO520
+      driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.github.drango.microservices.user.domain
+  configuration.map-underscore-to-camel-case: true
+logging:
+  level:
+    root: debug
+  path: ./logs/8810
+  file:
+    max-size: 1000MB
+
+#redis:
+#  host: 127.0.0.1
+#  # 端口
+#  port: 6379
+#  # Redis服务器连接密码（默认为空）
+#  password:
+#  # 连接池最大连接数（使用负值表示没有限制）
+#  pool.max-active: 10000
+#  # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#  pool.max-wait: -1
+#  # 连接池中的最大空闲连接
+#  pool.max-idle: 10
+#  # 连接池中的最小空闲连接
+#  pool.min-idle: 0
+#  # 连接超时时间（毫秒）
+#  timeout: 30000
