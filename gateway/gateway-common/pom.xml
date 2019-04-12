@@ -9,13 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gateway-service</artifactId>
+    <artifactId>gateway-common</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.drango.microservices.gateway</groupId>
-            <artifactId>gateway-common</artifactId>
-        </dependency>
-    </dependencies>
 
 </project>
