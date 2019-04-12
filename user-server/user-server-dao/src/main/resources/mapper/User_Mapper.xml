@@ -6,12 +6,37 @@
         WHERE username = #{username}
     </select>
 
+    <select id="findById" resultMap="UserMap">
+        SELECT * FROM `user`
+        WHERE id = #{id}
+    </select>
+
+    <insert id="addUser" parameterType="com.github.drango.microservices.user.domain.User"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `user` (username, password, email, create_time, update_time)
+        VALUES (#{username}, #{password}, #{email}, now(), now())
+    </insert>
+
+    <update id="updateUser" parameterType="com.github.drango.microservices.user.domain.User">
+        UPDATE `user`
+        <set>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            update_time = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
     <resultMap id="UserMap" type="com.github.drango.microservices.user.domain.User">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <id column="username" jdbcType="VARCHAR" property="username"/>
         <id column="password" jdbcType="VARCHAR" property="password"/>
         <id column="email" jdbcType="VARCHAR" property="email"/>
-        <id column="create_time" jdbcType="DATE" property="createTime"/>
-        <id column="update_time" jdbcType="DATE" property="updateTime"/>
+        <id column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <id column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 </mapper>

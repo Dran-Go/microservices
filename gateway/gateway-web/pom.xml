@@ -25,11 +25,6 @@
 
         <dependency>
             <groupId>com.github.drango.microservices.gateway</groupId>
-            <artifactId>gateway-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.drango.microservices.gateway</groupId>
             <artifactId>gateway-service</artifactId>
         </dependency>
     </dependencies>

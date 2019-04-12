@@ -1,4 +1,5 @@
-package com.github.drango.microservices.gateway;
+package com.github.drango.microservices.user;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +9,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = "com.github.drango.microservices")
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.github.drango.microservices")
-public class MinAppApplication {
-
+public class UserWebApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MinAppApplication.class, args);
+        SpringApplication.run(UserWebApplication.class, args);
     }
 
 }

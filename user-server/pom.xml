@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
+        <module>user-client</module>
         <module>user-server-common</module>
         <module>user-server-dao</module>
         <module>user-server-service</module>
@@ -47,19 +48,36 @@
             <artifactId>spring-cloud-starter-consul-all</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-openfeign-core</artifactId>-->
+            <!--<artifactId>spring-cloud-starter-openfeign</artifactId>-->
         <!--</dependency>-->
 
         <!--<dependency>-->
             <!--<groupId>org.springframework.cloud</groupId>-->
             <!--<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
         <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.github.drango.microservices</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.drango.microservices.user</groupId>
+                <artifactId>user-client</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.github.drango.microservices.user</groupId>
                 <artifactId>user-server-common</artifactId>

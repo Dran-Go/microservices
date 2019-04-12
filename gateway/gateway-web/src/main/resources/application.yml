@@ -1,6 +1,8 @@
 spring:
   jackson:
     default-property-inclusion: non_empty
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   cloud:
     gateway:
       discovery:
@@ -18,12 +20,8 @@ spring:
         register: false
 logging:
   level:
-    root: debug
-#    org:
-#      springframework:
-#        cloud:
-#          gateway: debug
-#    com.jiuwei.minapp: debug
+    root: info
+    com.github.drango.microservices.gateway: debug
   path: ./logs/8800
   file:
     max-size: 1000MB
