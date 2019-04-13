@@ -26,7 +26,7 @@ public class UrlWhiteList {
         if (UrlWhiteList.GLOBAL_FILTER_URI_WHITE_LIST.contains(uri)) {
             return true;
         }
-
+        methodValue = methodValue.toUpperCase();
         boolean getWhiteList = UrlWhiteList.GET_FILTER_URI_WHITE_LIST.contains(uri) && methodValue.equals("GET");
         boolean postWhiteList =  UrlWhiteList.POST_FILTER_URI_WHITE_LIST.contains(uri) && methodValue.equals("POST");
         boolean putWhiteList =  UrlWhiteList.PUT_FILTER_URI_WHITE_LIST.contains(uri) && methodValue.equals("PUT");
