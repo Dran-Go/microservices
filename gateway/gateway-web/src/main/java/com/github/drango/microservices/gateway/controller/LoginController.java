@@ -21,7 +21,7 @@ public class LoginController {
 
     @GetMapping(value = "/api/user/login")
     public ResultVo<String> login(@RequestParam(name = "username") String username,
-                                   @RequestParam(name = "password") String password) {
+                                  @RequestParam(name = "password") String password) {
         String sessionId = null;
         try {
             sessionId = loginService.createUserSession(username, password);

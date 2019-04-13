@@ -6,6 +6,7 @@ import com.github.drango.microservices.gateway.common.CacheKeys;
 import com.github.drango.microservices.gateway.service.LoginService;
 import com.github.drango.microservices.user.client.api.UserApi;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,21 @@ public class LoginServiceImpl implements LoginService {
         operation.set(key, userId, CacheKeys.SESSION_KEY_EXPIRE , TimeUnit.SECONDS);
 
         return sessionId;
+    }
+
+    @Override
+    public Integer getUserSession(String sessionId) {
+        if (StringUtils.isBlank(sessionId)) {
+            return null;
+        }
+
+        String key = CacheKeys.SESSION_KEY_PREFIX + sessionId;
+        boolean hasKey = redisTemplate.hasKey(key);
+        if (!hasKey) {
+            return null;
+        }
+
+        ValueOperations<String, Integer> operations = redisTemplate.opsForValue();
+        return operations.get(key);
     }
 }
