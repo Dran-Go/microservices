@@ -19,6 +19,11 @@ spring:
       username: msa_root
       password: NANHAO520
       driver-class-name: com.mysql.jdbc.Driver
+  zipkin:
+    base-url: http://zipkin-server/
+  sleuth:
+    sampler:
+      probability: 1.0
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.github.drango.microservices.user.domain

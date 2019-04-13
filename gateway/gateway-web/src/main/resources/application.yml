@@ -29,6 +29,11 @@ spring:
     port: 6379
     password: drango
     database: 0
+  zipkin:
+    base-url: http://zipkin-server/
+  sleuth:
+   sampler:
+    probability: 1.0
 logging:
   level:
     root: info
