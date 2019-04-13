@@ -20,11 +20,11 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping(value = "/api/user/login")
-    public ResultVo<Boolean> login(@RequestParam(name = "username") String username,
+    public ResultVo<String> login(@RequestParam(name = "username") String username,
                                    @RequestParam(name = "password") String password) {
-        Boolean success = false;
+        String sessionId = null;
         try {
-            success = loginService.verifyUser(username, password);
+            sessionId = loginService.createUserSession(username, password);
         } catch (BusinessException e) {
             LOG.error("login failed, username:{}, password:{}, response:{}", username, password, e.getMessage());
             return new ResultVo<>(e.getCode(), e.getMessage());
@@ -32,7 +32,7 @@ public class LoginController {
             e.printStackTrace();
             LOG.error("login failed, exception message:{}", e.getMessage());
         }
-        return success ? new ResultVo<>(true) :
+        return sessionId != null ? new ResultVo<>(sessionId) :
                 new ResultVo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 

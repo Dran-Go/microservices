@@ -29,12 +29,12 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
-    public Boolean verifyUser(String username, String password) throws BusinessException {
+    public String createUserSession(String username, String password) throws BusinessException {
 
         ResultBo<UserBo> userResponse =  userApi.getUser(0, username, password);
         if (userResponse == null) {
             LOG.error("login failed ,username:{}, password:{}, response:null", username, password);
-            return false;
+            return null;
         }
 
         if (userResponse.getCode() != HttpStatus.OK.value()) {
@@ -46,8 +46,8 @@ public class LoginServiceImpl implements LoginService {
         String sessionId = UUID.randomUUID().toString();
         String key = CacheKeys.SESSION_KEY_PREFIX + sessionId;
         ValueOperations<String, Integer> operation = redisTemplate.opsForValue();
-        operation.set(key, userId, 60 , TimeUnit.SECONDS);
+        operation.set(key, userId, CacheKeys.SESSION_KEY_EXPIRE , TimeUnit.SECONDS);
 
-        return true;
+        return sessionId;
     }
 }
