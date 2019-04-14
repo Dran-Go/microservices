@@ -5,8 +5,9 @@ import yaml
 
 
 class Consul:
-    def __init__(self, sidecar_port):
+    def __init__(self, sidecar_port, key):
         self.sidecar_port = sidecar_port
+        self.key = key
         response = requests.get("http://localhost:{}/hosts/consul".format(sidecar_port))
         data = json.loads(response.text)
         self.port = data[0]['host']
@@ -14,8 +15,8 @@ class Consul:
     def get_host(self):
         return self.port
 
-    def get_configuration(self, key):
+    def get_configuration(self):
         c = consul.Consul(host=self.port)
-        index, response = c.kv.get(key)
+        index, response = c.kv.get(self.key)
         data = yaml.safe_load(response['Value'])
         return data

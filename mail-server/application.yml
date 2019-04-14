@@ -1,0 +1,13 @@
+flask:
+ host: 0.0.0.0
+ port: 8831
+
+mail:
+ server: smtp.qq.com
+ port: 465
+ ssl: True
+ sender:
+  name: admin
+  email: Dran-Go@foxmail.com
+ username: Dran-Go@foxmail.com
+ password: tiwkfdfpfecebgja
