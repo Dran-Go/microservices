@@ -1,21 +1,8 @@
 from flask import *
 from flask_mail import Mail, Message
+from configuration import *
 
 app = Flask(__name__)
-
-app.config.update(
-    DEBUG=False,
-    # EMAIL SETTINGS
-    MAIL_SERVER='smtp.qq.com',
-    MAIL_PORT=465,
-    MAIL_USE_SSL=True,
-    MAIL_DEFAULT_SENDER=('admin', 'Dran-Go@foxmail.com'),
-    MAIL_MAX_EMAILS=10,
-    MAIL_USERNAME='Dran-Go@foxmail.com',
-    MAIL_PASSWORD='tiwkfdfpfecebgja'
-)
-
-mail = Mail(app)
 
 
 @app.route("/health")
@@ -44,4 +31,22 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8831)
+    # 使用consul做为配置中心
+    SIDECAR_PORT = 8830
+    CONFIGURATION_KEY = "config/mail-server"
+    app_config = Consul(SIDECAR_PORT).get_configuration(CONFIGURATION_KEY)
+
+    # EMAIL SETTINGS
+    app_mail_config = app_config['mail']
+    app.config.update(
+        DEBUG=False,
+        MAIL_SERVER=app_mail_config['server'],
+        MAIL_PORT=app_mail_config['port'],
+        MAIL_USE_SSL=app_mail_config['ssl'],
+        MAIL_DEFAULT_SENDER=(app_mail_config['sender']['name'], app_mail_config['sender']['email']),
+        MAIL_USERNAME=app_mail_config['username'],
+        MAIL_PASSWORD=app_mail_config['password']
+    )
+    mail = Mail(app)
+
+    app.run(host=app_config['flask']['host'], port=app_config['flask']['port'])
