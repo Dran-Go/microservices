@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      config:
+        watch:
+          enabled: true
+      discovery:
+        serviceName: mail-sidecar
+        healthCheckInterval: 10s
+sidecar:
+  port: 8831
+  health-uri: http://localhost:${sidecar.port}/health
+eureka:
+  client:
+    enabled: false
