@@ -1,3 +1,4 @@
+domain: localhost:8810
 spring:
   jackson:
     default-property-inclusion: non_empty

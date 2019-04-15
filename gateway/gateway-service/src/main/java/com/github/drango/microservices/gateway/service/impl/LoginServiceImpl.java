@@ -3,6 +3,7 @@ package com.github.drango.microservices.gateway.service.impl;
 import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.common.result.ResultBo;
 import com.github.drango.microservices.gateway.common.CacheKeys;
+import com.github.drango.microservices.gateway.helper.ResponseHelper;
 import com.github.drango.microservices.gateway.service.LoginService;
 import com.github.drango.microservices.user.client.api.UserApi;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
@@ -12,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -26,6 +26,9 @@ public class LoginServiceImpl implements LoginService {
     private UserApi userApi;
 
     @Autowired
+    private ResponseHelper responseHelper;
+
+    @Autowired
     private RedisTemplate redisTemplate;
 
 
@@ -33,15 +36,7 @@ public class LoginServiceImpl implements LoginService {
     public String createUserSession(String username, String password) throws BusinessException {
 
         ResultBo<UserBo> userResponse =  userApi.getUser(0, username, password);
-        if (userResponse == null) {
-            LOG.error("login failed ,username:{}, password:{}, response:null", username, password);
-            return null;
-        }
-
-        if (userResponse.getCode() != HttpStatus.OK.value()) {
-            throw new BusinessException(userResponse.getCode(), userResponse.getMessage());
-        }
-
+        responseHelper.checkResponse(userResponse);
         Integer userId = userResponse.getData().getUserId();
 
         String sessionId = UUID.randomUUID().toString();

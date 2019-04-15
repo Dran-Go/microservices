@@ -12,15 +12,27 @@ public class UserRouter {
     public RouteLocator userRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 // query user
-                .route(router -> router.path("/api/user").and().method(HttpMethod.GET)
+                .route(router -> router.path("api/user").and().method(HttpMethod.GET)
+                        .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
+                        .uri("lb://user-server"))
+                // query all valid user
+                .route(router -> router.path("api/users").and().method(HttpMethod.GET)
                         .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
                         .uri("lb://user-server"))
                 // create user
-                .route(router -> router.path("/api/user").and().method(HttpMethod.POST)
+                .route(router -> router.path("api/user").and().method(HttpMethod.POST)
                         .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
                         .uri("lb://user-server"))
                 // modify user
-                .route(router -> router.path("/api/user").and().method(HttpMethod.PUT)
+                .route(router -> router.path("api/user").and().method(HttpMethod.PUT)
+                        .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
+                        .uri("lb://user-server"))
+                // verify user email
+                .route(router -> router.path("api/user/email/verify").and().method(HttpMethod.GET)
+                        .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
+                        .uri("lb://user-server"))
+                // create user email verification
+                .route(router -> router.path("api/user/email/verify").and().method(HttpMethod.POST)
                         .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
                         .uri("lb://user-server"))
                 .build();
