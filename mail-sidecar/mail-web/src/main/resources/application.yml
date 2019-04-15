@@ -9,6 +9,11 @@ spring:
       discovery:
         serviceName: mail-sidecar
         healthCheckInterval: 10s
+  zipkin:
+    base-url: http://zipkin-server/
+  sleuth:
+    sampler:
+      probability: 1.0
 sidecar:
   port: 8831
   health-uri: http://localhost:${sidecar.port}/health
