@@ -15,3 +15,10 @@ sidecar:
 eureka:
   client:
     enabled: false
+logging:
+  level:
+    root: info
+    com.github.drango.microservices.mail: debug
+  path: ./logs/8830
+  file:
+    max-size: 1000MB

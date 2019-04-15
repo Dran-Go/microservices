@@ -1,8 +1,14 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
 from flask import *
 from flask_mail import Mail, Message
 from configuration import *
 
 app = Flask(__name__)
+
+result_success = {'code': 200, 'message': 'ok', 'data': True}
+result_fail = {'code': 500, 'message': 'HTTP-Internal Server Error', 'data': True}
 
 # Sidecar状态监控
 @app.route("/health")
@@ -16,36 +22,42 @@ def send_verify_mail():
     email = request.form['email'].strip()
     username = request.form['username'].strip()
     verify_url = request.form['verifyUrl'].strip()
-    subject = '您的帐户－请确认您的电子邮件地址'
-    with open('./templates/mail/verify.html', 'r', encoding='UTF-8') as f:
-        message = f.read()
-    message = message.replace('{% username %}', username).replace('{% verify_url %}', verify_url)
-    msg = Message(
-        subject=subject,
-        recipients=[email],
-        html=message
-    )
-    mail.send(msg)
-    result = {'code': 200, 'message': 'ok', 'data': True}
+    try:
+        subject = '您的帐户－请确认您的电子邮件地址'
+        with open('./templates/mail/verify.html', 'r', encoding='UTF-8') as f:
+            message = f.read()
+        message = message.replace('{% username %}', username).replace('{% verify_url %}', verify_url)
+        msg = Message(
+            subject=subject,
+            recipients=[email],
+            html=message
+        )
+        mail.send(msg)
+        result = result_success
+    except:
+        result = result_fail
     return Response(json.dumps(result), mimetype='application/json')
 
 # 发送通信邮件
 @app.route("/api/mail/letter", methods=['POST'])
 def send_letter_mail():
     email = request.form['email'].strip()
-    from_username = request.form['from_username'].strip()
+    from_username = request.form['fromUsername'].strip()
     text = request.form['text'].strip()
-    subject = str.format('{}给您发来一封新邮件', from_username)
-    with open('./templates/mail/letter.html', 'r', encoding='UTF-8') as f:
-        message = f.read()
-    message = message.replace('{% from_username %}', from_username).replace('{% text %}', text)
-    msg = Message(
-        subject=subject,
-        recipients=[email],
-        html=message
-    )
-    mail.send(msg)
-    result = {'code': 200, 'message': 'ok', 'data': True}
+    try:
+        subject = str.format('{}给您发来一封新邮件', from_username)
+        with open('./templates/mail/letter.html', 'r', encoding='UTF-8') as f:
+            message = f.read()
+        message = message.replace('{% from_username %}', from_username).replace('{% text %}', text)
+        msg = Message(
+            subject=subject,
+            recipients=[email],
+            html=message
+        )
+        mail.send(msg)
+        result = result_success
+    except:
+        result = result_fail
     return Response(json.dumps(result), mimetype='application/json')
 
 
