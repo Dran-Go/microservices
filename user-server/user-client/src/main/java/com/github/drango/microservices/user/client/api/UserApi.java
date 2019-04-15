@@ -1,6 +1,7 @@
 package com.github.drango.microservices.user.client.api;
 
 import com.github.drango.microservices.common.result.ResultBo;
+import com.github.drango.microservices.common.result.ResultListBo;
 import com.github.drango.microservices.user.client.bean.request.UserRequest;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
 import com.github.drango.microservices.user.client.hystrix.UserApiHystrix;
@@ -16,10 +17,20 @@ public interface UserApi {
                              @RequestParam(name = "username", required = false) String username,
                              @RequestParam(name = "password", required = false) String password);
 
+    @GetMapping(value = "api/users")
+    ResultListBo<UserBo> getAllUser();
+
     @PostMapping(value = "api/user")
     ResultBo<String> createUser(@RequestBody UserRequest userRequest);
 
     @PutMapping(value = "api/user")
     ResultBo<UserBo> modifyUser(@RequestHeader(name = "userId") Integer userId,
                                 @RequestBody UserRequest userRequest);
+
+    @PostMapping("api/user/email/verify")
+    ResultBo<String> createEmailVerification(@RequestHeader(name = "userId") Integer userId);
+
+    @GetMapping("api/user/email/verify")
+    ResultBo<Boolean> checkEmailVerification(@RequestParam(name = "code") String code);
+
 }

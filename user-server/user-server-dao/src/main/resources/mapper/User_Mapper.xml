@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.drango.microservices.user.dao.UserDao">
+    <select id="findById" resultMap="UserMap">
+        SELECT * FROM `user`
+        WHERE id = #{id}
+    </select>
+
     <select id="findByUsername" resultMap="UserMap">
         SELECT * FROM `user`
         WHERE username = #{username}
     </select>
 
-    <select id="findById" resultMap="UserMap">
+    <select id="findByEmail" resultMap="UserMap">
         SELECT * FROM `user`
-        WHERE id = #{id}
+        WHERE email = #{email}
+    </select>
+
+    <select id="findByEmailValid" resultMap="UserMap">
+        SELECT * FROM `user`
+        WHERE email_valid = #{emailValid}
     </select>
 
     <insert id="add" parameterType="com.github.drango.microservices.user.domain.User"

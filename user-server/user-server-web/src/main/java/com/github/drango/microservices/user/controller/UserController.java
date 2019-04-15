@@ -2,6 +2,7 @@ package com.github.drango.microservices.user.controller;
 
 import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.common.result.ResultBo;
+import com.github.drango.microservices.common.result.ResultListBo;
 import com.github.drango.microservices.user.client.bean.request.UserRequest;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
 import com.github.drango.microservices.user.service.EmailService;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -36,13 +39,29 @@ public class UserController {
             LOG.error("query user failed, userId:{}, username:{}, password:{}, error:{}",
                     userId, username, password, e.getMessage());
             return new ResultBo<>(e.getCode(), e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            LOG.error("query user failed, exception message:{}", e.getMessage());
+            LOG.error("query user failed, userId:{}, username:{}, password:{}",
+                    userId, username, password);
         }
         return userBo != null ? new ResultBo<>(userBo) :
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
+    }
+
+    @GetMapping(value = "api/users")
+    public ResultListBo<UserBo> getAllUser() {
+        List<UserBo> listUser = null;
+        try {
+            listUser = userService.getUserListData();
+        } catch (BusinessException e) {
+            LOG.error("get all user failed, error:{}", e.getMessage());
+            return new ResultListBo<>(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("get all user failed");
+        }
+        return listUser != null ? new ResultListBo<>(listUser.size(), listUser) :
+                new ResultListBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
     @PostMapping(value = "api/user")
@@ -50,13 +69,16 @@ public class UserController {
         String code = null;
         try {
             UserBo userBo =  userService.createUser(userRequest);
-            code = emailService.createEmailVerification(userBo.getUserId(), userBo.getEmail());
+            code = emailService.createEmailVerification(userBo.getUserId());
+        } catch (BusinessException e) {
+            LOG.error("create user failed, request:{}, error:{}", userRequest, e.getMessage());
+            return new ResultBo<>(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            LOG.error("create user error, request:{}", userRequest.toString());
+            LOG.error("create user failed, request:{}", userRequest.toString());
         }
         return code != null ? new ResultBo<>(code) :
-                new ResultBo<>(HttpStatus.BAD_REQUEST.value(), "创建用户失败");
+                new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
     @PutMapping(value = "api/user")
@@ -65,11 +87,16 @@ public class UserController {
         UserBo userBo = null;
         try {
             userBo = userService.modifyUser(userId, userRequest);
-        } catch (Exception e) {
+        } catch (BusinessException e) {
+            LOG.error("modify user failed, userId:{}, request:{}, error:{}",
+                    userId, userRequest, e.getMessage());
+            return new ResultBo<>(e.getCode(), e.getMessage());
+        }  catch (Exception e) {
             e.printStackTrace();
-            LOG.error("modify user error, userId:{}, request:{}", userId, userRequest.toString());
+            LOG.error("modify user failed, userId:{}, request:{}",
+                    userId, userRequest.toString());
         }
         return userBo != null ? new ResultBo<>(userBo) :
-                new ResultBo<>(HttpStatus.BAD_REQUEST.value(), "修改用户信息失败");
+                new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 }

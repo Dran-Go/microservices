@@ -6,7 +6,6 @@ import java.util.Date;
 public class UserEmailVerification implements Serializable {
     private Integer id;
     private Integer userId;
-    private String email;
     private String code;
     private Boolean valid;
     private Date createTime;
@@ -25,14 +24,6 @@ public class UserEmailVerification implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getCode() {
