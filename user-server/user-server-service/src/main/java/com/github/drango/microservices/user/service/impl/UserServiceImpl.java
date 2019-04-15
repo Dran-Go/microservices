@@ -29,41 +29,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBo getUser(String username, String password) throws BusinessException {
-        User user = null;
-        user = userDao.findByUsername(username);
-
-        if (user == null) {
-            throw new BusinessException(
-                    UserServer.ERROR_USERNAME.getCode(), UserServer.ERROR_USERNAME.getMessage());
-        } else if (!password.equals(user.getPassword())) {
+        User user = this.getUserCommon(null, username);
+        if (!password.equals(user.getPassword())) {
             throw new BusinessException(
                     UserServer.ERROR_PASSWORD.getCode(), UserServer.ERROR_PASSWORD.getMessage());
-        } else if (!user.getEmailValid()) {
-            throw new BusinessException(
-                    UserServer.INVALID_EMAIL.getCode(), UserServer.INVALID_EMAIL.getMessage());
         }
-
         return userHelper.convert(user);
     }
 
     @Override
     public UserBo getUser(Integer userId) throws BusinessException {
-        if (userId == null || userId <= 0) {
-            throw new BusinessException(HttpStatus.BAD_REQUEST.value() ,"请求参数错误");
-        }
-
-        User user = userDao.findById(userId);
-        if (user == null) {
-            throw new BusinessException(
-                    UserServer.ERROR_USERNAME.getCode(), UserServer.ERROR_USERNAME.getMessage());
-        } else if (!user.getEmailValid()) {
-            throw new BusinessException(
-                    UserServer.INVALID_EMAIL.getCode(), UserServer.INVALID_EMAIL.getMessage());
-        }
-
+        User user = this.getUserCommon(userId, null);
         return userHelper.convert(user);
     }
 
+    @Override
+    public String getUserEmail(String username) throws BusinessException {
+        User user = this.getUserCommon(null, username);
+        return user.getEmail();
+    }
 
     @Override
     public List<UserBo> getUserListData() throws BusinessException {
@@ -124,5 +108,26 @@ public class UserServiceImpl implements UserService {
             LOG.debug("modify userId:{} failed", userId);
             return null;
         }
+    }
+
+    private User getUserCommon(Integer userId, String username) throws BusinessException {
+        User user = null;
+        if (userId != null && userId > 0) {
+            user = userDao.findById(userId);
+        } else if (username != null) {
+            user = userDao.findByUsername(username);
+        } else {
+            throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "请求参数错误");
+        }
+
+        if (user == null) {
+            throw new BusinessException(
+                    UserServer.ERROR_USERNAME.getCode(), UserServer.ERROR_USERNAME.getMessage());
+        } else if (!user.getEmailValid()) {
+            throw new BusinessException(
+                    UserServer.INVALID_EMAIL.getCode(), UserServer.INVALID_EMAIL.getMessage());
+        }
+
+        return user;
     }
 }

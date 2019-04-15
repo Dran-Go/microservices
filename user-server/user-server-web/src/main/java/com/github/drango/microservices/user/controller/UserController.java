@@ -64,6 +64,22 @@ public class UserController {
                 new ResultListBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
+    @GetMapping(value = "api/user/email")
+    public ResultBo<String> getUserEmail(@RequestParam(name = "username") String username) {
+        String email = null;
+        try {
+            email = userService.getUserEmail(username);
+        } catch (BusinessException e) {
+            LOG.error("get user email failed, username:{}, error:{}", username, e.getMessage());
+            return new ResultBo<>(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("get user email failed");
+        }
+        return email != null ? new ResultBo<>(email) :
+                new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
+    }
+
     @PostMapping(value = "api/user")
     public ResultBo<String> createUser(@RequestBody UserRequest userRequest) {
         String code = null;

@@ -20,6 +20,9 @@ public interface UserApi {
     @GetMapping(value = "api/users")
     ResultListBo<UserBo> getAllUser();
 
+    @GetMapping(value = "api/user/email")
+    ResultBo<String> getUserEmail(@RequestParam(name = "username") String username);
+
     @PostMapping(value = "api/user")
     ResultBo<String> createUser(@RequestBody UserRequest userRequest);
 

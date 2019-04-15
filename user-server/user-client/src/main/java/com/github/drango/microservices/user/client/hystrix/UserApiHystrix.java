@@ -21,6 +21,11 @@ public class UserApiHystrix implements UserApi {
     }
 
     @Override
+    public ResultBo<String> getUserEmail(String username) {
+        return new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
+    }
+
+    @Override
     public ResultBo<String> createUser(UserRequest userRequest) {
         return new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
