@@ -11,13 +11,13 @@
         WHERE id = #{id}
     </select>
 
-    <insert id="addUser" parameterType="com.github.drango.microservices.user.domain.User"
+    <insert id="add" parameterType="com.github.drango.microservices.user.domain.User"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `user` (username, password, email, create_time, update_time)
-        VALUES (#{username}, #{password}, #{email}, now(), now())
+        INSERT INTO `user` (username, password, email, email_valid, create_time, update_time)
+        VALUES (#{username}, #{password}, #{email}, #(emailValid), now(), now())
     </insert>
 
-    <update id="updateUser" parameterType="com.github.drango.microservices.user.domain.User">
+    <update id="update" parameterType="com.github.drango.microservices.user.domain.User">
         UPDATE `user`
         <set>
             <if test="password != null">
@@ -25,6 +25,9 @@
             </if>
             <if test="email != null">
                 email = #{email},
+            </if>
+            <if test="emailValid != null">
+                email_valid = #{emailValid},
             </if>
             update_time = now()
         </set>
@@ -36,6 +39,7 @@
         <id column="username" jdbcType="VARCHAR" property="username"/>
         <id column="password" jdbcType="VARCHAR" property="password"/>
         <id column="email" jdbcType="VARCHAR" property="email"/>
+        <id column="email_valid" jdbcType="BOOLEAN" property="emailValid"/>
         <id column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <id column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>

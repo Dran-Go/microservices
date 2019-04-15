@@ -1,8 +1,10 @@
 package com.github.drango.microservices.user.controller;
 
+import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.common.result.ResultBo;
 import com.github.drango.microservices.user.client.bean.request.UserRequest;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
+import com.github.drango.microservices.user.service.EmailService;
 import com.github.drango.microservices.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping(value = "api/user")
     public ResultBo<UserBo> getUser(@RequestHeader(name = "userId", required = false) Integer userId,
@@ -28,24 +32,30 @@ public class UserController {
             } else {
                 userBo = userService.getUser(username, password);
             }
-        } catch (Exception e) {
+        } catch (BusinessException e) {
+            LOG.error("query user failed, userId:{}, username:{}, password:{}, error:{}",
+                    userId, username, password, e.getMessage());
+            return new ResultBo<>(e.getCode(), e.getMessage());
+        }
+        catch (Exception e) {
             e.printStackTrace();
-            LOG.error("query user error, userId:{}, username:{}, password:{}", userId, username, password);
+            LOG.error("query user failed, exception message:{}", e.getMessage());
         }
         return userBo != null ? new ResultBo<>(userBo) :
-                new ResultBo<>(HttpStatus.NOT_FOUND.value(), "用户不存在或密码错误");
+                new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
     @PostMapping(value = "api/user")
-    public ResultBo<UserBo> addUser(@RequestBody UserRequest userRequest) {
-        UserBo userBo = null;
+    public ResultBo<String> createUser(@RequestBody UserRequest userRequest) {
+        String code = null;
         try {
-            userBo =  userService.addUser(userRequest);
+            UserBo userBo =  userService.createUser(userRequest);
+            code = emailService.createEmailVerification(userBo.getUserId(), userBo.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error("create user error, request:{}", userRequest.toString());
         }
-        return userBo != null ? new ResultBo<>(userBo) :
+        return code != null ? new ResultBo<>(code) :
                 new ResultBo<>(HttpStatus.BAD_REQUEST.value(), "创建用户失败");
     }
 

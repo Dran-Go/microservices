@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.drango.microservices.user.dao.UserEmailVerificationDao">
+    <select id="findByCode" resultMap="UserEmailVerificationMap">
+        SELECT * FROM `user_email_verification`
+        WHERE code = #{code}
+    </select>
+
+    <insert id="add" parameterType="com.github.drango.microservices.user.domain.UserEmailVerification"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `user_email_verification` (user_id, email, code, create_time)
+        VALUES (#{userId}, #{email}, #{code}, now())
+    </insert>
+
+    <resultMap id="UserEmailVerificationMap" type="com.github.drango.microservices.user.domain.UserEmailVerification">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <id column="email" jdbcType="VARCHAR" property="email"/>
+        <id column="code" jdbcType="VARCHAR" property="code"/>
+        <id column="valid" jdbcType="BOOLEAN" property="valid"/>
+        <id column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+</mapper>

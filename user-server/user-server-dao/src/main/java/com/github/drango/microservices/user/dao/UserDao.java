@@ -9,7 +9,7 @@ public interface UserDao {
 
     User findById(Integer id);
 
-    boolean addUser(User user);
+    boolean add(User user);
 
-    int updateUser(User user);
+    int update(User user);
 }

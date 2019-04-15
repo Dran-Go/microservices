@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
+    private Boolean emailValid;
     private Date createTime;
     private Date updateTime;
 
@@ -41,6 +42,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getEmailValid() {
+        return emailValid;
+    }
+
+    public void setEmailValid(Boolean emailValid) {
+        this.emailValid = emailValid;
     }
 
     public Date getCreateTime() {

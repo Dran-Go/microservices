@@ -17,7 +17,7 @@ public interface UserApi {
                              @RequestParam(name = "password", required = false) String password);
 
     @PostMapping(value = "api/user")
-    ResultBo<UserBo> addUser(@RequestBody UserRequest userRequest);
+    ResultBo<String> createUser(@RequestBody UserRequest userRequest);
 
     @PutMapping(value = "api/user")
     ResultBo<UserBo> modifyUser(@RequestHeader(name = "userId") Integer userId,

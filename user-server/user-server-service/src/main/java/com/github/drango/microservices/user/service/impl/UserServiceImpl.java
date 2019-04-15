@@ -1,5 +1,6 @@
 package com.github.drango.microservices.user.service.impl;
 
+import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.user.client.bean.request.UserRequest;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
 import com.github.drango.microservices.user.dao.UserDao;
@@ -22,29 +23,40 @@ public class UserServiceImpl implements UserService {
     private UserHelper userHelper;
 
     @Override
-    public UserBo getUser(String username, String password) {
+    public UserBo getUser(String username, String password) throws BusinessException {
         User user = null;
         user = userDao.findByUsername(username);
 
-        if (user != null && password.equals(user.getPassword())) {
-            return userHelper.convert(user);
-        } else {
-            return null;
+        if (user == null) {
+            throw new BusinessException(1001, "用户不存在");
+        } else if (!password.equals(user.getPassword())) {
+            throw new BusinessException(1002, "密码错误");
+        } else if (!user.getEmailValid()) {
+            throw new BusinessException(1003, "邮箱未验证");
         }
-    }
 
-    @Override
-    public UserBo getUser(Integer userId) {
-        if (userId == null || userId <= 0) {
-            return null;
-        }
-        User user = null;
-        user = userDao.findById(userId);
         return userHelper.convert(user);
     }
 
     @Override
-    public UserBo addUser(UserRequest userRequest) {
+    public UserBo getUser(Integer userId) throws BusinessException {
+        if (userId == null || userId <= 0) {
+            throw new BusinessException(400 ,"请求参数错误");
+        }
+
+        User user = null;
+        user = userDao.findById(userId);
+        if (user == null) {
+            throw new BusinessException(1001, "用户不存在");
+        } else if (!user.getEmailValid()) {
+            throw new BusinessException(1003, "邮箱未验证");
+        }
+
+        return userHelper.convert(user);
+    }
+
+    @Override
+    public UserBo createUser(UserRequest userRequest) {
         if (userRequest == null) {
             return null;
         }
@@ -53,7 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userRequest.getPassword());
         user.setEmail(userRequest.getEmail());
 
-        if(userDao.addUser(user)) {
+        if(userDao.add(user)) {
             return userHelper.convert(user);
         } else {
             LOG.debug("create user fail");
@@ -72,7 +84,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userRequest.getPassword());
         user.setEmail(userRequest.getEmail());
 
-        if (userDao.updateUser(user) == 1) {
+        if (userDao.update(user) == 1) {
             return userHelper.convert(user);
         } else {
             LOG.debug("modify userId:{} fail", userId);
