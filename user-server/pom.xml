@@ -34,34 +34,34 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.0.4.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.0.4.RELEASE</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-all</artifactId>
+            <version>2.0.1.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.0.1.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>2.0.1.RELEASE</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>com.github.drango.microservices</groupId>
             <artifactId>common-utils</artifactId>
@@ -76,31 +76,26 @@
                 <artifactId>user-client</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.drango.microservices.user</groupId>
                 <artifactId>user-server-common</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.drango.microservices.user</groupId>
                 <artifactId>user-server-dao</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.drango.microservices.user</groupId>
                 <artifactId>user-server-service</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.drango.microservices.user</groupId>
                 <artifactId>user-server-web</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>

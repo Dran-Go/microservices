@@ -33,5 +33,4 @@ public class UserController {
         return success != null ? new ResultVo<>(success) :
                 new ResultVo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
-
 }

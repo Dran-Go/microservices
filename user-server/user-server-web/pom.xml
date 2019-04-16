@@ -18,7 +18,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.github.drango.microservices.user</groupId>
             <artifactId>user-server-service</artifactId>
@@ -26,12 +25,12 @@
     </dependencies>
 
     <build>
+        <finalName>user-server-8810</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <finalName>user-server-8810</finalName>
     </build>
 </project>

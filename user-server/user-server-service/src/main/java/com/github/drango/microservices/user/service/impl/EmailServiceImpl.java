@@ -1,7 +1,6 @@
 package com.github.drango.microservices.user.service.impl;
 
 import com.github.drango.microservices.common.exception.BusinessException;
-import com.github.drango.microservices.user.client.bean.response.UserBo;
 import com.github.drango.microservices.user.dao.UserDao;
 import com.github.drango.microservices.user.dao.UserEmailVerificationDao;
 import com.github.drango.microservices.user.domain.User;
@@ -40,7 +39,6 @@ public class EmailServiceImpl implements EmailService {
             return null;
         }
         return String.format("%s?code=%s", "/api/user/email/verify", verifyCode);
-
     }
 
     @Override

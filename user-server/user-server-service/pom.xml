@@ -18,7 +18,6 @@
             <groupId>com.github.drango.microservices.user</groupId>
             <artifactId>user-client</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.github.drango.microservices.user</groupId>
             <artifactId>user-server-dao</artifactId>

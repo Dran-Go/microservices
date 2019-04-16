@@ -31,7 +31,6 @@ public class EmailController {
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
-
     @GetMapping("/api/user/email/verify")
     public ResultBo<Boolean> checkEmailVerification(@RequestParam(name = "code") String code) {
         Boolean success = false;

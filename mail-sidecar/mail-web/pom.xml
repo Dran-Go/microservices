@@ -29,12 +29,12 @@
     </dependencies>
 
     <build>
+        <finalName>mail-sidecar-8821</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <finalName>mail-sidecar-8830</finalName>
     </build>
 </project>

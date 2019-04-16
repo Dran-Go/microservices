@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 public class LoginController {
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
@@ -35,5 +34,4 @@ public class LoginController {
         return sessionId != null ? new ResultVo<>(sessionId) :
                 new ResultVo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
-
 }
