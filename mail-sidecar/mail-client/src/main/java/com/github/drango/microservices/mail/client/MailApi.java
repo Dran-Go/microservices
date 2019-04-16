@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Primary
-@FeignClient(name = "mail-sidecar", fallback = MailApiHystrix.class)
+@FeignClient(name = "mail-server", fallback = MailApiHystrix.class)
 public interface MailApi {
     @PostMapping(value = "api/mail/verify")
     ResultBo<Boolean> sendVerifyMail(@RequestBody VerifyMailRequest verifyMailRequest);

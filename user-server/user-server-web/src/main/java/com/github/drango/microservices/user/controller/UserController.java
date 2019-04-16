@@ -82,10 +82,10 @@ public class UserController {
 
     @PostMapping(value = "api/user")
     public ResultBo<String> createUser(@RequestBody UserRequest userRequest) {
-        String code = null;
+        String verifyUri = null;
         try {
             UserBo userBo =  userService.createUser(userRequest);
-            code = emailService.createEmailVerification(userBo.getUserId());
+            verifyUri = emailService.createEmailVerifyUri(userBo.getUserId());
         } catch (BusinessException e) {
             LOG.error("create user failed, request:{}, error:{}", userRequest, e.getMessage());
             return new ResultBo<>(e.getCode(), e.getMessage());
@@ -93,7 +93,7 @@ public class UserController {
             e.printStackTrace();
             LOG.error("create user failed, request:{}", userRequest.toString());
         }
-        return code != null ? new ResultBo<>(code) :
+        return verifyUri != null ? new ResultBo<>(verifyUri) :
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 

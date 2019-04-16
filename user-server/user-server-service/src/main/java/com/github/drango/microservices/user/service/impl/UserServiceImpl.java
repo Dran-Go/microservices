@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(username);
         user.setPassword(userRequest.getPassword());
         user.setEmail(email);
+        user.setEmailValid(false);
 
         if(userDao.add(user)) {
             return userHelper.convert(user);

@@ -18,16 +18,16 @@ public class EmailController {
 
     @PostMapping("api/user/email/verify")
     public ResultBo<String> createEmailVerification(@RequestHeader(name = "userId") Integer userId) {
-        String verifyCode = null;
+        String verifyUri = null;
         try {
-            verifyCode = emailService.createEmailVerification(userId);
+            verifyUri = emailService.createEmailVerifyUri(userId);
         } catch (BusinessException e) {
             LOG.error("create email code failed, userId:{}, error:{}", userId, e.getMessage());
             return new ResultBo<>(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return verifyCode != null ? new ResultBo<>(verifyCode) :
+        return verifyUri != null ? new ResultBo<>(verifyUri) :
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 

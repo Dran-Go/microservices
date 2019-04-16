@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
     UserDao userDao;
 
     @Override
-    public String createEmailVerification(Integer userId) throws BusinessException {
+    public String createEmailVerifyUri(Integer userId) throws BusinessException {
         List<UserEmailVerification> listEmailVerification = emailVerificationDao.findByUserId(userId);
         if (listEmailVerification != null) {
             listEmailVerification.forEach(emailVerification -> emailVerificationDao.update(emailVerification));
@@ -39,7 +39,8 @@ public class EmailServiceImpl implements EmailService {
         if (!emailVerificationDao.add(emailVerification)) {
             return null;
         }
-        return verifyCode;
+        return String.format("%s?code=%s", "/api/user/email/verify", verifyCode);
+
     }
 
     @Override

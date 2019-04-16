@@ -19,6 +19,10 @@ public class UrlWhiteList {
     }
 
     static {
+        GET_FILTER_URI_WHITE_LIST.add("/api/user/email/verify");
+    }
+
+    static {
         POST_FILTER_URI_WHITE_LIST.add("/api/user");
     }
 

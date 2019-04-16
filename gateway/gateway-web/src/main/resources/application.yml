@@ -1,4 +1,4 @@
-domain: localhost:8810
+host: http://127.0.0.1:8800
 spring:
   jackson:
     default-property-inclusion: non_empty
@@ -42,6 +42,7 @@ logging:
   path: ./logs/8800
   file:
     max-size: 1000MB
+
 hystrix:
   command:
     default:

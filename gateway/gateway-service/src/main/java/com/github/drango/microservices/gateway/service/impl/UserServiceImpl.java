@@ -29,23 +29,23 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserHelper userHelper;
 
-    @Value("${domain}")
-    private String domain;
+    @Value("${host}")
+    private String host;
 
     @Override
     public Boolean createUser(UserRequest userRequest) throws BusinessException {
         ResultBo<String> userResponse = userApi.createUser(userHelper.convert(userRequest));
         responseHelper.checkResponse(userResponse);
-        String verifyCode = userResponse.getData();
+        String verifyUrl = String.format("%s%s", host, userResponse.getData());
+        LOG.debug("create user success, try to send email.");
 
         VerifyMailRequest mailRequest = new VerifyMailRequest();
         mailRequest.setEmail(userRequest.getEmail());
         mailRequest.setUsername(userRequest.getUsername());
-        mailRequest.setVerifyUrl(String.format("%s?code=%s", domain, verifyCode));
+        mailRequest.setVerifyUrl(verifyUrl);
         
         ResultBo<Boolean> mailResponse = mailApi.sendVerifyMail(mailRequest);
         responseHelper.checkResponse(mailResponse);
-
         return true;
     }
 }

@@ -35,6 +35,4 @@ public class UserController {
                 new ResultVo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
-
-
 }

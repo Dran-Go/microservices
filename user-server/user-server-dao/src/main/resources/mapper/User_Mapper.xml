@@ -24,7 +24,7 @@
     <insert id="add" parameterType="com.github.drango.microservices.user.domain.User"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `user` (username, password, email, email_valid, create_time, update_time)
-        VALUES (#{username}, #{password}, #{email}, #(emailValid), now(), now())
+        VALUES (#{username}, #{password}, #{email}, #{emailValid}, now(), now())
     </insert>
 
     <update id="update" parameterType="com.github.drango.microservices.user.domain.User">
