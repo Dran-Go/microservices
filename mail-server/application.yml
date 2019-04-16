@@ -1,7 +1,9 @@
 server:
  name: mail-server
  host: 0.0.0.0
- port: 8831
+ port: 8820
+ sidecar:
+  port: 8821
 
 mail:
  server: smtp.qq.com

@@ -1,9 +1,9 @@
-#!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from flask import *
 from flask_mail import Mail, Message
-from configuration import *
+from manager import *
 
 app = Flask(__name__)
 
