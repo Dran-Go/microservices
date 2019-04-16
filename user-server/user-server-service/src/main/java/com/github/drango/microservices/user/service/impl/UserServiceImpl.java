@@ -51,14 +51,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserBriefBo> getUserListData() throws BusinessException {
+    public List<UserBriefBo> getUserListData(Integer userId) throws BusinessException {
         List<UserBriefBo> listUserBo = new ArrayList<>();
 
         List<User> listUser = userDao.findByEmailValid(true);
         if (listUser != null && listUser.size() > 0) {
-            listUser.forEach(user -> listUserBo.add(userHelper.convertBrief(user)));
+            listUser.forEach(user -> {
+                if(user.getId() != userId) {
+                listUserBo.add(userHelper.convertBrief(user));
+                 }
+            });
         }
-
         return listUserBo;
     }
 

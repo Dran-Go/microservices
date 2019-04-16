@@ -16,7 +16,7 @@ public class UserApiHystrix implements UserApi {
     }
 
     @Override
-    public ResultListBo<UserBo> getAllUser() {
+    public ResultListBo<UserBo> getAllUser(Integer userId) {
         return new ResultListBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 

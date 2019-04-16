@@ -18,7 +18,7 @@ public interface UserApi {
                              @RequestParam(name = "password", required = false) String password);
 
     @GetMapping(value = "/api/users")
-    ResultListBo<UserBo> getAllUser();
+    ResultListBo<UserBo> getAllUser(@RequestHeader(name = "userId") Integer userId);
 
     @GetMapping(value = "/api/user/email")
     ResultBo<String> getUserEmail(@RequestParam(name = "username") String username);

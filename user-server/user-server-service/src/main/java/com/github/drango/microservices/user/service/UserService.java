@@ -14,7 +14,7 @@ public interface UserService {
 
     String getUserEmail(String username) throws BusinessException;
 
-    List<UserBriefBo> getUserListData() throws BusinessException;
+    List<UserBriefBo> getUserListData(Integer userId) throws BusinessException;
 
     UserBo createUser(UserRequest userRequest) throws BusinessException;
 

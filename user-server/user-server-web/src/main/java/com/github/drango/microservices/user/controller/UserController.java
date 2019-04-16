@@ -50,10 +50,10 @@ public class UserController {
     }
 
     @GetMapping(value = "/api/users")
-    public ResultListBo<UserBriefBo> getAllUser() {
+    public ResultListBo<UserBriefBo> getAllUser(@RequestHeader(name = "userId") Integer userId) {
         List<UserBriefBo> listUser = null;
         try {
-            listUser = userService.getUserListData();
+            listUser = userService.getUserListData(userId);
         } catch (BusinessException e) {
             LOG.error("get all user failed, error:{}", e.getMessage());
             return new ResultListBo<>(e.getCode(), e.getMessage());
