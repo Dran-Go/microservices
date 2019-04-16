@@ -15,7 +15,7 @@ spring:
     sampler:
       probability: 1.0
 sidecar:
-  port: 8831
+  port: 8820
   health-uri: http://localhost:${sidecar.port}/health
 eureka:
   client:
@@ -24,6 +24,6 @@ logging:
   level:
     root: info
     com.github.drango.microservices.mail: debug
-  path: ./logs/8830
+  path: ./logs/${server.port}
   file:
     max-size: 1000MB

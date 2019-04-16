@@ -7,14 +7,13 @@ import com.github.drango.microservices.mail.hystrix.MailApiHystrix;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Primary
-@FeignClient(name = "mail-server", fallback = MailApiHystrix.class)
+@FeignClient(name = "mail-sidecar", fallback = MailApiHystrix.class)
 public interface MailApi {
-    @PostMapping(value = "api/mail/verify")
-    ResultBo<Boolean> sendVerifyMail(@RequestBody VerifyMailRequest verifyMailRequest);
+    @PostMapping(value = "/mail-server/api/mail/verify")
+    ResultBo<Boolean> sendVerifyMail(VerifyMailRequest verifyMailRequest);
 
-    @PostMapping(value = "api/mail/letter")
-    ResultBo<Boolean> sendLetterMail(@RequestBody LetterMailRequest letterMailRequest);
+    @PostMapping(value = "/mail-server/api/mail/letter")
+    ResultBo<Boolean> sendLetterMail(LetterMailRequest letterMailRequest);
 }
