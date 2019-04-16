@@ -4,6 +4,7 @@ import com.github.drango.microservices.common.code.UserServer;
 import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.user.client.bean.request.UserRequest;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
+import com.github.drango.microservices.user.client.bean.response.UserBriefBo;
 import com.github.drango.microservices.user.dao.UserDao;
 import com.github.drango.microservices.user.domain.User;
 import com.github.drango.microservices.user.helper.UserHelper;
@@ -50,12 +51,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserBo> getUserListData() throws BusinessException {
-        List<UserBo> listUserBo = new ArrayList<>();
+    public List<UserBriefBo> getUserListData() throws BusinessException {
+        List<UserBriefBo> listUserBo = new ArrayList<>();
 
         List<User> listUser = userDao.findByEmailValid(true);
         if (listUser != null && listUser.size() > 0) {
-            listUser.forEach(user -> listUserBo.add(userHelper.convert(user)));
+            listUser.forEach(user -> listUserBo.add(userHelper.convertBrief(user)));
         }
 
         return listUserBo;

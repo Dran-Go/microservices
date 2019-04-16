@@ -5,6 +5,7 @@ import com.github.drango.microservices.common.result.ResultBo;
 import com.github.drango.microservices.common.result.ResultListBo;
 import com.github.drango.microservices.user.client.bean.request.UserRequest;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
+import com.github.drango.microservices.user.client.bean.response.UserBriefBo;
 import com.github.drango.microservices.user.service.EmailService;
 import com.github.drango.microservices.user.service.UserService;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
-    @GetMapping(value = "api/user")
+    @GetMapping(value = "/api/user")
     public ResultBo<UserBo> getUser(@RequestHeader(name = "userId", required = false) Integer userId,
                                     @RequestParam(name = "username", required = false) String username,
                                     @RequestParam(name = "password", required = false) String password) {
@@ -48,9 +49,9 @@ public class UserController {
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
-    @GetMapping(value = "api/users")
-    public ResultListBo<UserBo> getAllUser() {
-        List<UserBo> listUser = null;
+    @GetMapping(value = "/api/users")
+    public ResultListBo<UserBriefBo> getAllUser() {
+        List<UserBriefBo> listUser = null;
         try {
             listUser = userService.getUserListData();
         } catch (BusinessException e) {
@@ -64,7 +65,7 @@ public class UserController {
                 new ResultListBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
-    @GetMapping(value = "api/user/email")
+    @GetMapping(value = "/api/user/email")
     public ResultBo<String> getUserEmail(@RequestParam(name = "username") String username) {
         String email = null;
         try {
@@ -80,7 +81,7 @@ public class UserController {
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
-    @PostMapping(value = "api/user")
+    @PostMapping(value = "/api/user")
     public ResultBo<String> createUser(@RequestBody UserRequest userRequest) {
         String verifyUri = null;
         try {
@@ -97,7 +98,7 @@ public class UserController {
                 new ResultBo<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
     }
 
-    @PutMapping(value = "api/user")
+    @PutMapping(value = "/api/user")
     public ResultBo<UserBo> modifyUser(@RequestHeader(name = "userId") Integer userId,
                                        @RequestBody UserRequest userRequest) {
         UserBo userBo = null;

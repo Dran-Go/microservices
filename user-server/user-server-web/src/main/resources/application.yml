@@ -13,7 +13,6 @@ spring:
       discovery:
         serviceName: user-server
         healthCheckInterval: 10s
-#        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   datasource:
       url: jdbc:mysql://rm-bp1a1h5a322p1e8v5wo.mysql.rds.aliyuncs.com:3306/microservices?useUnicode=true&useSSL=false&amp;characterEncoding=utf-8&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
       username: msa_root
@@ -32,6 +31,6 @@ logging:
   level:
     root: info
     com.github.drango.microservices.user: debug
-  path: ./logs/8810
+  path: ./logs/${server.port}
   file:
     max-size: 1000MB

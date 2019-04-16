@@ -16,7 +16,7 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("api/user/email/verify")
+    @PostMapping("/api/user/email/verify")
     public ResultBo<String> createEmailVerification(@RequestHeader(name = "userId") Integer userId) {
         String verifyUri = null;
         try {
@@ -32,7 +32,7 @@ public class EmailController {
     }
 
 
-    @GetMapping("api/user/email/verify")
+    @GetMapping("/api/user/email/verify")
     public ResultBo<Boolean> checkEmailVerification(@RequestParam(name = "code") String code) {
         Boolean success = false;
         try {
