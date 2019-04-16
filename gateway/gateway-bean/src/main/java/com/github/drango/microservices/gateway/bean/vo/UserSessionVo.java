@@ -1,18 +1,22 @@
 package com.github.drango.microservices.gateway.bean.vo;
 
-public class UserSessionVo {
-    private String sessionId;
+import java.io.Serializable;
+
+public class UserSessionVo implements Serializable {
     private Integer userId;
     private String username;
     private String email;
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
+////    Redis正则化
+//    @Override
+//    public String toString() {
+//        final StringBuilder sb = new StringBuilder("UserSessionVo{");
+//        sb.append("userId=").append(userId);
+//        sb.append(", username='").append(username).append('\'');
+//        sb.append(", email='").append(email).append('\'');
+//        sb.append('}');
+//        return sb.toString();
+//    }
 
     public Integer getUserId() {
         return userId;

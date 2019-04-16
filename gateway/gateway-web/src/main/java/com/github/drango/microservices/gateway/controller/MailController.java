@@ -20,11 +20,11 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping(value = "/api/mail/letter")
-    ResultVo<Boolean> sendLetterMail(@RequestHeader(name = "userId") Integer userId,
+    ResultVo<Boolean> sendLetterMail(@RequestHeader(name = "username") String username,
                                      LetterMailRequest letterMailRequest) {
         Boolean success = false;
         try {
-            success = mailService.sendMail(userId, letterMailRequest);
+            success = mailService.sendMail(username, letterMailRequest);
         } catch (BusinessException e) {
             LOG.error("send mail failed, request:{}, error:{}", letterMailRequest.toString(), e.getMessage());
             return new ResultVo<>(e.getCode(), e.getMessage());

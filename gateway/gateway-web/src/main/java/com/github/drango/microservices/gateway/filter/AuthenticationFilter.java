@@ -1,5 +1,6 @@
 package com.github.drango.microservices.gateway.filter;
 
+import com.github.drango.microservices.gateway.bean.vo.UserSessionVo;
 import com.github.drango.microservices.gateway.common.Constants;
 import com.github.drango.microservices.gateway.common.FilterResponse;
 import com.github.drango.microservices.gateway.common.UrlWhiteList;
@@ -32,19 +33,22 @@ public class AuthenticationFilter implements WebFilter {
         // outside the white list
         if (!UrlWhiteList.checkWhiteList(uri, methodValue)) {
             String sessionId = exchange.getRequest().getHeaders().getFirst(Constants.CLIENT_SESSION);
-            Integer userId = loginService.getUserSession(sessionId);
-            LOG.debug("sessionId:{}, userId:{}", sessionId, userId);
+            UserSessionVo session = loginService.getUserSession(sessionId);
 
             // unauthorized
-            if (userId == null) {
+            if (session == null ||session.getUserId() == null) {
                 return FilterResponse.write(exchange, HttpStatus.UNAUTHORIZED.value(), Constants.UNAUTHORIZED_MESSAGE);
             }
 
             ServerHttpRequest serverHttpRequest = exchange.getRequest()
                     .mutate()
                     .headers(httpHeaders -> httpHeaders.remove("userId"))
+                    .headers(httpHeaders -> httpHeaders.remove("username"))
+                    .headers(httpHeaders -> httpHeaders.remove("email"))
                     .headers(httpHeaders -> httpHeaders.remove(Constants.CLIENT_SESSION))
-                    .header("userId", String.valueOf(userId))
+                    .header("userId", String.valueOf(session.getUserId()))
+                    .header("username", session.getUsername())
+                    .header("email", session.getEmail())
                     .build();
             ServerWebExchange serverWebExchange = exchange.mutate()
                     .request(serverHttpRequest)

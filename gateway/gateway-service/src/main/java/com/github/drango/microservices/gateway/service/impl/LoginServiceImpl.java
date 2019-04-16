@@ -2,6 +2,7 @@ package com.github.drango.microservices.gateway.service.impl;
 
 import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.common.result.ResultBo;
+import com.github.drango.microservices.gateway.bean.vo.UserSessionVo;
 import com.github.drango.microservices.gateway.common.CacheKeys;
 import com.github.drango.microservices.gateway.helper.ResponseHelper;
 import com.github.drango.microservices.gateway.service.LoginService;
@@ -34,21 +35,25 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public String createUserSession(String username, String password) throws BusinessException {
-
         ResultBo<UserBo> userResponse =  userApi.getUser(0, username, password);
         responseHelper.checkResponse(userResponse);
-        Integer userId = userResponse.getData().getUserId();
+        UserBo userBo = userResponse.getData();
+
+        UserSessionVo userSessionVo = new UserSessionVo();
+        userSessionVo.setUserId(userBo.getUserId());
+        userSessionVo.setUsername(userBo.getUsername());
+        userSessionVo.setEmail(userBo.getEmail());
 
         String sessionId = UUID.randomUUID().toString();
         String key = CacheKeys.SESSION_KEY_PREFIX + sessionId;
-        ValueOperations<String, Integer> operation = redisTemplate.opsForValue();
-        operation.set(key, userId, CacheKeys.SESSION_KEY_EXPIRE , TimeUnit.SECONDS);
+        ValueOperations<String, UserSessionVo> operation = redisTemplate.opsForValue();
+        operation.set(key, userSessionVo, CacheKeys.SESSION_KEY_EXPIRE , TimeUnit.SECONDS);
 
         return sessionId;
     }
 
     @Override
-    public Integer getUserSession(String sessionId) {
+    public UserSessionVo getUserSession(String sessionId) {
         if (StringUtils.isBlank(sessionId)) {
             return null;
         }
@@ -59,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
 
-        ValueOperations<String, Integer> operations = redisTemplate.opsForValue();
+        ValueOperations<String, UserSessionVo> operations = redisTemplate.opsForValue();
         return operations.get(key);
     }
 }
