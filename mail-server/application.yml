@@ -4,7 +4,9 @@ server:
  port: 8820
  sidecar:
   port: 8821
-
+logging:
+ level: info
+ path: ./logs/8820/flask.log
 mail:
  server: smtp.qq.com
  port: 465

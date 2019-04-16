@@ -4,6 +4,7 @@
 from flask import *
 from flask_mail import Mail, Message
 from manager import *
+import logging
 
 app = Flask(__name__)
 
@@ -42,9 +43,10 @@ def send_verify_mail():
 # 发送通信邮件
 @app.route("/api/mail/letter", methods=['POST'])
 def send_letter_mail():
-    email = request.form['email'].strip()
-    from_username = request.form['fromUsername'].strip()
-    text = request.form['text'].strip()
+    request_data = request.get_json(force=True)
+    email = request_data['email'].strip()
+    from_username = request_data['fromUsername'].strip()
+    text = request_data['text'].strip()
     try:
         subject = str.format('{}给您发来一封新邮件', from_username)
         with open('./templates/mail/letter.html', 'r', encoding='UTF-8') as f:
@@ -68,9 +70,10 @@ if __name__ == '__main__':
     try:
         app_config = app_consul.get_configuration()
     except:
-        print("Error: Loading configuration from consul failed, try to load locally.")
         with open('./application.yml', 'r') as f:
             app_config = yaml.safe_load(f)
+
+    log_setting(app_config['logging'])
 
     # 配置邮箱
     app_mail_config = app_config['mail']

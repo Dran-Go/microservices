@@ -1,5 +1,7 @@
 import consul
 import yaml
+import logging
+import os
 
 
 # consul管理
@@ -37,6 +39,14 @@ class Sidecar:
         return self.get_server("user-server")
 
 
+# 日志配置
+def log_setting(app_log_config):
+    log_path = app_log_config['path']
+    log_dir = os.path.dirname(log_path)
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    logging.basicConfig(level=str(app_log_config['level']).upper(), filename=log_path,
+                        format="%(levelname)s:%(asctime)s:%(message)s")
 
 
 
