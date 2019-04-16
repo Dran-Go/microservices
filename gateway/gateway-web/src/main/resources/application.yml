@@ -1,4 +1,4 @@
-host: http://127.0.0.1:8800
+server-base-url: http://127.0.0.1:8800
 spring:
   jackson:
     default-property-inclusion: non_empty
@@ -16,15 +16,7 @@ spring:
         watch:
           enabled: true
       discovery:
-#        serviceName: gateway
-#        healthCheckInterval: 10s
         register: false
-#  session:
-#    store-type: redis
-#    redis:
-#      flush-mode: on_save
-#      namespace: microservices:gateway:session
-#    timeout: 100
   redis:
     host: 47.102.201.250
     port: 6379
@@ -39,7 +31,7 @@ logging:
   level:
     root: info
     com.github.drango.microservices.gateway: debug
-  path: ./logs/8800
+  path: ./logs/${server.port}
   file:
     max-size: 1000MB
 

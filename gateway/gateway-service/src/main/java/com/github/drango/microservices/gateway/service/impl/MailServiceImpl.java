@@ -26,15 +26,19 @@ public class MailServiceImpl implements MailService {
     private ResponseHelper responseHelper;
 
     @Override
-    public Boolean sendMail(LetterMailRequest request) throws BusinessException {
-        ResultBo<String> userResponse = userApi.getUserEmail(request.getToUsername());
+    public Boolean sendMail(Integer userId, LetterMailRequest request) throws BusinessException {
+        ResultBo<UserBo> userResponse = userApi.getUser(userId, null, null);
         responseHelper.checkResponse(userResponse);
-        String toEmail = userResponse.getData();
+        String username = userResponse.getData().getUsername();
+
+        ResultBo<String> toUserResponse = userApi.getUserEmail(request.getToUsername());
+        responseHelper.checkResponse(toUserResponse);
+        String toEmail = toUserResponse.getData();
 
         com.github.drango.microservices.mail.bean.LetterMailRequest letterRequest =
                 new com.github.drango.microservices.mail.bean.LetterMailRequest();
         letterRequest.setEmail(toEmail);
-        letterRequest.setFromUsername(request.getUsername());
+        letterRequest.setFromUsername(username);
         letterRequest.setText(request.getText());
 
         ResultBo<Boolean> mailResponse = mailApi.sendLetterMail(letterRequest);

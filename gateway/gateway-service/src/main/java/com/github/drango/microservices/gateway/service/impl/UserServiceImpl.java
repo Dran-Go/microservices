@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserHelper userHelper;
 
-    @Value("${host}")
+    @Value("${server-base-url}")
     private String host;
 
     @Override

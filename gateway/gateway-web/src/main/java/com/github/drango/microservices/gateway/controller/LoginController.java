@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @GetMapping(value = "api/user/login")
+    @GetMapping(value = "/api/user/login")
     public ResultVo<String> login(@RequestParam(name = "username") String username,
                                   @RequestParam(name = "password") String password) {
         String sessionId = null;
