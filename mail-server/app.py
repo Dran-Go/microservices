@@ -19,9 +19,10 @@ def health():
 # 发送邮箱地址校验邮件
 @app.route("/api/mail/verify", methods=['POST'])
 def send_verify_mail():
-    email = request.form['email'].strip()
-    username = request.form['username'].strip()
-    verify_url = request.form['verifyUrl'].strip()
+    request_data = request.get_json(force=True)
+    email = request_data['email'].strip()
+    username = request_data['username'].strip()
+    verify_url = request_data['verifyUrl'].strip()
     try:
         subject = '您的帐户－请确认您的电子邮件地址'
         with open('./templates/mail/verify.html', 'r', encoding='UTF-8') as f:
@@ -63,8 +64,9 @@ def send_letter_mail():
 
 if __name__ == '__main__':
     # 使用consul做为配置中心
+    app_consul = Consul("127.0.0.1", 8500, "config/mail-server")
     try:
-        app_config = Consul(8830, "config/mail-server").get_configuration()
+        app_config = app_consul.get_configuration()
     except:
         print("Error: Loading configuration from consul failed, try to load locally.")
         with open('./application.yml', 'r') as f:
@@ -83,4 +85,6 @@ if __name__ == '__main__':
     )
     mail = Mail(app)
 
-    app.run(host=app_config['flask']['host'], port=app_config['flask']['port'])
+    app_server_config = app_config['server']
+    app_consul.register(app_server_config['name'], app_server_config['port'])
+    app.run(host=app_server_config['host'], port=app_server_config['port'])
