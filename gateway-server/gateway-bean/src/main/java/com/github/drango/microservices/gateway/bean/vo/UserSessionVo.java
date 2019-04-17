@@ -7,17 +7,6 @@ public class UserSessionVo implements Serializable {
     private String username;
     private String email;
 
-////    Redis正则化
-//    @Override
-//    public String toString() {
-//        final StringBuilder sb = new StringBuilder("UserSessionVo{");
-//        sb.append("userId=").append(userId);
-//        sb.append(", username='").append(username).append('\'');
-//        sb.append(", email='").append(email).append('\'');
-//        sb.append('}');
-//        return sb.toString();
-//    }
-
     public Integer getUserId() {
         return userId;
     }
