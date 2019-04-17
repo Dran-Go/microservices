@@ -29,7 +29,7 @@
     </dependencies>
 
     <build>
-        <finalName>gateway-web-8800</finalName>
+        <finalName>gateway-server-8800</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

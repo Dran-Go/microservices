@@ -18,7 +18,7 @@ spring:
       discovery:
         register: false
   redis:
-    host: 47.102.201.250
+    host: 127.0.0.1
     port: 6379
     password: drango
     database: 0
