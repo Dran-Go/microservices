@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+ consul:
+  image: consul
+  container_name: consul-server-node
+  network_mode: host
+  ports:
+   - 8300:8300
+   - 8301:8301
+   - 8301:8301/udp
+   - 8302:8302
+   - 8302:8302/udp
+   - 8500:8500
+   - 8600:8600
+   - 8600:8600/udp
+  command: consul agent -server -bootstrap-expect=1 -data-dir=/tmp/consul -ui -client=0.0.0.0 -advertise=172.16.252.38 -advertise-wan=47.102.201.250 -node=server-wan -datacenter=Ali
