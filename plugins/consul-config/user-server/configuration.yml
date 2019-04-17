@@ -1,26 +1,13 @@
 spring:
-  jackson:
-    default-property-inclusion: non_empty
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
   datasource:
       url: jdbc:mysql://rm-bp1a1h5a322p1e8v5wo.mysql.rds.aliyuncs.com:3306/microservices?useUnicode=true&useSSL=false&amp;characterEncoding=utf-8&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
       username: msa_root
       password: NANHAO520
       driver-class-name: com.mysql.jdbc.Driver
-  zipkin:
-    base-url: http://zipkin-server/
-  sleuth:
-    sampler:
-      probability: 1.0
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.github.drango.microservices.user.domain
   configuration.map-underscore-to-camel-case: true
 logging:
   level:
-    root: info
     com.github.drango.microservices.user: debug
-  path: ./logs/${server.port}
-  file:
-    max-size: 1000MB

@@ -1,14 +1,4 @@
 spring:
-  cloud:
-    consul:
-      host: 127.0.0.1
-      port: 8500
-      config:
-        watch:
-          enabled: true
-      discovery:
-        serviceName: mail-sidecar
-        healthCheckInterval: 10s
   zipkin:
     base-url: http://zipkin-server/
   sleuth:
@@ -27,3 +17,6 @@ logging:
   path: ./logs/${server.port}
   file:
     max-size: 1000MB
+#zuul:
+#  host:
+#    connect-timeout-millis: 5000

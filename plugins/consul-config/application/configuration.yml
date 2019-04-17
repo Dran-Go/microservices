@@ -1,0 +1,16 @@
+spring:
+  jackson:
+    default-property-inclusion: non_empty
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  zipkin:
+    base-url: http://zipkin-server/
+  sleuth:
+   sampler:
+    probability: 1.0
+logging:
+  level:
+    root: info
+  path: ./logs/${server.port}
+  file:
+    max-size: 1000MB

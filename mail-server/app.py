@@ -66,7 +66,7 @@ def send_letter_mail():
 
 if __name__ == '__main__':
     # 使用consul做为配置中心
-    app_consul = Consul("127.0.0.1", 8500, "config/mail-server")
+    app_consul = Consul("127.0.0.1", 8500, "config/mail-server/configuration")
     try:
         app_config = app_consul.get_configuration()
     except:

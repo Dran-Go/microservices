@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    consul:
+      discovery:
+        register: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+  redis:
+    host: 47.102.201.250
+    port: 6379
+    password: drango
+    database: 0
+server-base-url: http://127.0.0.1:8800
+logging:
+  level:
+    com.github.drango.microservices.gateway: debug
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+feign:
+  hystrix:
+    enabled: true
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 6000

@@ -1,0 +1,9 @@
+sidecar:
+  port: 8820
+  health-uri: http://localhost:${sidecar.port}/health
+eureka:
+  client:
+    enabled: false
+logging:
+  level:
+    com.github.drango.microservices.mail: debug
