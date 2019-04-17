@@ -4,7 +4,7 @@
 from flask import *
 from flask_mail import Mail, Message
 from manager import *
-import logging
+
 
 app = Flask(__name__)
 
