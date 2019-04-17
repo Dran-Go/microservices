@@ -19,14 +19,6 @@ public class UserRouter {
                 .route(router -> router.path("/api/users").and().method(HttpMethod.GET)
                         .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
                         .uri("lb://user-server"))
-                // create user
-                .route(router -> router.path("/api/user").and().method(HttpMethod.POST)
-                        .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
-                        .uri("lb://user-server"))
-                // modify user
-                .route(router -> router.path("/api/user").and().method(HttpMethod.PUT)
-                        .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))
-                        .uri("lb://user-server"))
                 // verify user email
                 .route(router -> router.path("/api/user/email/verify").and().method(HttpMethod.GET)
                         .filters(filter -> filter.retry(2).hystrix(config -> config.setFallbackUri("forward:/fallback")))

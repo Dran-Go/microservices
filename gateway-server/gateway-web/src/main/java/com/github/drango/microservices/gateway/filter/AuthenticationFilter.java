@@ -4,7 +4,7 @@ import com.github.drango.microservices.gateway.bean.vo.UserSessionVo;
 import com.github.drango.microservices.gateway.common.Constants;
 import com.github.drango.microservices.gateway.common.FilterResponse;
 import com.github.drango.microservices.gateway.common.UrlWhiteList;
-import com.github.drango.microservices.gateway.service.LoginService;
+import com.github.drango.microservices.gateway.service.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class AuthenticationFilter implements WebFilter {
     private static final Logger LOG = LoggerFactory.getLogger(AuthenticationFilter.class);
 
     @Autowired
-    private LoginService loginService;
+    private SessionService sessionService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -33,7 +33,7 @@ public class AuthenticationFilter implements WebFilter {
         // outside the white list
         if (!UrlWhiteList.checkWhiteList(uri, methodValue)) {
             String sessionId = exchange.getRequest().getHeaders().getFirst(Constants.CLIENT_SESSION);
-            UserSessionVo session = loginService.getUserSession(sessionId);
+            UserSessionVo session = sessionService.getUserSession(sessionId);
 
             // unauthorized
             if (session == null ||session.getUserId() == null) {
@@ -49,6 +49,7 @@ public class AuthenticationFilter implements WebFilter {
                     .header("userId", String.valueOf(session.getUserId()))
                     .header("username", session.getUsername())
                     .header("email", session.getEmail())
+                    .header("sessionId", sessionId)
                     .build();
             ServerWebExchange serverWebExchange = exchange.mutate()
                     .request(serverHttpRequest)

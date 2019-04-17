@@ -5,7 +5,7 @@ import com.github.drango.microservices.common.result.ResultBo;
 import com.github.drango.microservices.gateway.bean.vo.UserSessionVo;
 import com.github.drango.microservices.gateway.common.CacheKeys;
 import com.github.drango.microservices.gateway.helper.ResponseHelper;
-import com.github.drango.microservices.gateway.service.LoginService;
+import com.github.drango.microservices.gateway.service.SessionService;
 import com.github.drango.microservices.user.client.api.UserApi;
 import com.github.drango.microservices.user.client.bean.response.UserBo;
 import org.apache.commons.lang.StringUtils;
@@ -14,14 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class LoginServiceImpl implements LoginService {
-    private static final Logger LOG = LoggerFactory.getLogger(LoginServiceImpl.class);
+public class SessionServiceImpl implements SessionService {
+    private static final Logger LOG = LoggerFactory.getLogger(SessionServiceImpl.class);
 
     @Autowired
     private UserApi userApi;
@@ -66,5 +67,19 @@ public class LoginServiceImpl implements LoginService {
 
         ValueOperations<String, UserSessionVo> operations = redisTemplate.opsForValue();
         return operations.get(key);
+    }
+
+    @Override
+    public void updateUserSession(String sessionId, UserBo userBo) throws BusinessException {
+        UserSessionVo userSessionVo = getUserSession(sessionId);
+
+        if (userSessionVo == null) {
+            throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙");
+        }
+
+        userSessionVo.setEmail(userBo.getEmail());
+        String key = CacheKeys.SESSION_KEY_PREFIX + sessionId;
+        ValueOperations<String, UserSessionVo> operations = redisTemplate.opsForValue();
+        operations.set(key, userSessionVo, CacheKeys.SESSION_KEY_EXPIRE , TimeUnit.SECONDS);
     }
 }

@@ -2,7 +2,7 @@ package com.github.drango.microservices.gateway.controller;
 
 import com.github.drango.microservices.common.exception.BusinessException;
 import com.github.drango.microservices.common.result.ResultVo;
-import com.github.drango.microservices.gateway.service.LoginService;
+import com.github.drango.microservices.gateway.service.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LoginController {
-    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+public class SessionController {
+    private static final Logger LOG = LoggerFactory.getLogger(SessionController.class);
 
     @Autowired
-    private LoginService loginService;
+    private SessionService sessionService;
 
     @GetMapping(value = "/api/user/login")
     public ResultVo<String> login(@RequestParam(name = "username") String username,
                                   @RequestParam(name = "password") String password) {
         String sessionId = null;
         try {
-            sessionId = loginService.createUserSession(username, password);
+            sessionId = sessionService.createUserSession(username, password);
         } catch (BusinessException e) {
             LOG.error("login failed, username:{}, password:{}, response:{}", username, password, e.getMessage());
             return new ResultVo<>(e.getCode(), e.getMessage());
