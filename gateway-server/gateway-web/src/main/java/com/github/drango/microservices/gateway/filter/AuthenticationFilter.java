@@ -17,7 +17,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-@Order(0)
+@Order(1)
 @Component
 public class AuthenticationFilter implements WebFilter {
     private static final Logger LOG = LoggerFactory.getLogger(AuthenticationFilter.class);
