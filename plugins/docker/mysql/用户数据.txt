@@ -1,0 +1,13 @@
+嬴政  zheng@qin.gov
+刘邦  bang@han.gov
+刘秀  liu@han.gov
+杨坚  jian@sui.gov
+李渊 yuan@tang.gov
+赵匡胤 kuangyin@song.gov
+忽必烈 bilie@meng.gov
+朱元璋 yuanzhang@ming.gov
+皇太极 taiji@qing.gov
+孙中山 zhongshan@min.gov
+毛泽东 zedong@gong.gov
+
+

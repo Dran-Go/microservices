@@ -1,0 +1,67 @@
+version: "3.7"
+services:
+  redis:
+    image: redis
+    container_name: redis
+    network_mode: host
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    command: redis-server /etc/redis/redis.conf --appendonly yes
+  gateway-server:
+    build:
+      context: ./app
+      dockerfile: gateway-server-Dockerfile
+    container_name: gateway-server
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8800:8800
+    command: java -jar app.jar
+  zipkin-server:
+    build:
+      context: ./app
+      dockerfile: zipkin-server-Dockerfile
+    container_name: zipkin-server
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8830:8830
+    command: java -jar app.jar
+  user-server:
+    build:
+      context: ./app
+      dockerfile: user-server-Dockerfile
+    container_name: user-server
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8810:8810
+    command: java -jar app.jar
+  mail-server:
+    build:
+      context: ./app/mail-server-8820
+      dockerfile: Dockerfile
+    container_name: mail-server
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8820:8820
+    command: python app.py
+  mail-sidecar:
+    build:
+      context: ./app
+      dockerfile: mail-sidecar-Dockerfile
+    container_name: mail-sidecar
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8821:8821
+    command: java -jar app.jar

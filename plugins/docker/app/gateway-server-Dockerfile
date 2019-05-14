@@ -1,0 +1,3 @@
+FROM java:8
+MAINTAINER "DranGo <103636933@qq.com>"
+ADD gateway-server-8800.jar app.jar

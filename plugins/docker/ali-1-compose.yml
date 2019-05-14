@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+  redis:
+    image: redis
+    container_name: redis
+    network_mode: host
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    command: redis-server /etc/redis/redis.conf --appendonly yes
+  gateway-server:
+    build:
+      context: ./app
+      dockerfile: gateway-server-Dockerfile
+    container_name: gateway-server
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8800:8800
+    command: java -jar app.jar
+  zipkin-server:
+    build:
+      context: ./app
+      dockerfile: zipkin-server-Dockerfile
+    container_name: zipkin-server
+    volumes:
+      - ./logs:/data/logs
+    network_mode: host
+    ports:
+      - 8830:8830
+    command: java -jar app.jar

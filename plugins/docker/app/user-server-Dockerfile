@@ -1,0 +1,3 @@
+FROM java:8
+MAINTAINER "DranGo <103636933@qq.com>"
+ADD user-server-8810.jar app.jar

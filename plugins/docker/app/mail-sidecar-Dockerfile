@@ -1,0 +1,3 @@
+FROM java:8
+MAINTAINER "DranGo <103636933@qq.com>"
+ADD mail-sidecar-8821.jar app.jar

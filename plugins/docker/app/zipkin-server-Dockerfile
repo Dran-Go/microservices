@@ -1,0 +1,3 @@
+FROM java:8
+MAINTAINER "DranGo <103636933@qq.com>"
+ADD zipkin-server-8830.jar app.jar
