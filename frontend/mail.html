@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>发信 - 微服务示例</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+<!--    <link rel="stylesheet" type="text/css" href="plugin/css/bootstrap.min.css">-->
+</head>
+<body style=" background: #f7f9fb;padding: 70px 180px;" hidden>
+<div style="width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto">
+    <div>
+        <div style="background: #fff;">
+            <h3 style="color: #333;font-size: 23px;font-weight: 400;padding-left: 25px;padding-top: 25px;padding-bottom: 20px;">收件人：<span id="box-head"></span></h3>
+<!--            <textarea id="box-text-form" rows="10" style="width: 100%; padding-left: 40px; padding-right: 40px;margin-right:auto;margin-left:auto"></textarea>-->
+            <div id="box-text" style="width: 95%; padding-left: 25px" >
+                <textarea id="box-text-form" rows="10" style="width: 100%"></textarea>
+                <button id="box-button"type="submit" style="width: 90px; height: 43px; margin-top: 20px; margin-bottom: 25px;font-size: 14px;
+                text-align: center;cursor: pointer;border: 1px solid transparent;border-radius: 4px;color: #fff;background-color: #337ab7;border-color: #2e6da4;">
+                    发送
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin: 40px 0;color: #888;font-size: 14px;text-align: center;font-family: 'Segoe UI Symbol'">
+    Copyright &copy; 2019 DranGo limited.All right reserved.
+</div>
+
+<script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="js/mail.js"> </script>
+</body>
+</html>
