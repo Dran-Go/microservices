@@ -7,10 +7,11 @@
             <div>
                 <p>尊敬的用户：{% username %}</p>
                 <p>您好！</p>
-                <p>请点击下面确认您的电子邮件地址，完成帐户注册。</p>
+                <p>请点击下面确认您的电子邮箱地址，完成帐户注册。</p>
                 <p>
-                    <a href="{% verify_url %}">
-                        <input type="button" style="width: 240px;height: 50px;border: none;border-radius: 4px;color: #FFFFFF;margin-top: 12px;outline:none;font-size: 16px;background:#1F4F82;padding:13px 0;opacity: 1;cursor: pointer;" value="确认电子邮件地址"></a>
+<!--                    <a style="color:#FFFFFF;text-decoration:none;" href="{% verify_url %}" >-->
+                    <button type="button" style="width: 240px;height: 50px;border: none;border-radius: 4px;color: #FFFFFF;margin-top: 12px;outline:none;font-size: 16px;background:#1F4F82;padding:13px 0;opacity: 1;cursor: pointer;"><a style="color:#FFFFFF;text-decoration:none;" href="{% verify_url %}" >确认电子邮箱地址</a></button>
+<!--                    </a>-->
                 </p>
                 <p style="margin-top: 30px;color: #747474">如果按钮失效可以点击下方链接:</p>
                 <p>{% verify_url %}</p>

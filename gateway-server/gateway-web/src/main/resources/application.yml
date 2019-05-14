@@ -1,40 +1,21 @@
-server-base-url: http://127.0.0.1:8800
 spring:
-  jackson:
-    default-property-inclusion: non_empty
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
   cloud:
+    consul:
+      discovery:
+        register: false
     gateway:
       discovery:
         locator:
           enabled: true
-    consul:
-      host: 127.0.0.1
-      port: 8500
-      config:
-        watch:
-          enabled: true
-      discovery:
-        register: false
   redis:
-    host: 127.0.0.1
+    host: 47.102.201.250
     port: 6379
     password: drango
     database: 0
-  zipkin:
-    base-url: http://zipkin-server/
-  sleuth:
-   sampler:
-    probability: 1.0
+email-verify-url: "http://139.159.132.32:8848/register.html?code="
 logging:
   level:
-    root: info
     com.github.drango.microservices.gateway: debug
-  path: ./logs/${server.port}
-  file:
-    max-size: 1000MB
-
 hystrix:
   command:
     default:

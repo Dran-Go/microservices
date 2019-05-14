@@ -25,7 +25,7 @@ def send_verify_mail():
     username = request_data['username'].strip()
     verify_url = request_data['verifyUrl'].strip()
     try:
-        subject = '您的帐户－请确认您的电子邮件地址'
+        subject = '您的帐户－请确认您的电子邮箱地址'
         with open('./templates/mail/verify.html', 'r', encoding='UTF-8') as f:
             message = f.read()
         message = message.replace('{% username %}', username).replace('{% verify_url %}', verify_url)

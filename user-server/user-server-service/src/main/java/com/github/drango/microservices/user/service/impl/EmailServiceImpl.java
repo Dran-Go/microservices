@@ -38,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
         if (!emailVerificationDao.add(emailVerification)) {
             return null;
         }
-        return String.format("%s?code=%s", "/api/user/email/verify", verifyCode);
+        return verifyCode;
     }
 
     @Override

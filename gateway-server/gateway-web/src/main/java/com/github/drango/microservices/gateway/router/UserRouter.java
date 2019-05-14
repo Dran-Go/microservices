@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRouter {
     @Bean
-    public RouteLocator userRouteLocator(RouteLocatorBuilder builder) {
+    public RouteLocator userRouteLocator(RouteLocatorBuilder builder)
+    {
         return builder.routes()
                 // query user
                 .route(router -> router.path("/api/user").and().method(HttpMethod.GET)

@@ -31,14 +31,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserHelper userHelper;
 
-    @Value("${server-base-url}")
-    private String host;
+    @Value("${email-verify-url}")
+    private String emailVerifyUrl;
 
     @Override
     public Boolean createUser(UserRequest userRequest) throws BusinessException {
         ResultBo<String> userResponse = userApi.createUser(userHelper.convert(userRequest));
         responseHelper.checkResponse(userResponse);
-        String verifyUrl = String.format("%s%s", host, userResponse.getData());
+        String verifyUrl = String.format("%s%s", emailVerifyUrl, userResponse.getData());
         LOG.debug("create user successfully, try to send email.");
 
         VerifyMailRequest mailRequest = new VerifyMailRequest();
